@@ -8,7 +8,7 @@ TinyGSM::TinyGSM(){}
 void TinyGSM::begin(SoftwareSerial *serial){
 	_serial = serial;
 	_serial->begin(TINYGSM_BAUD_RATE);
-	while (!isConnected());
+	while (!isConnected()); //TO-DO: add timeout
 	disableEcho();
 	delay(100);
 	enableSMSNotification();

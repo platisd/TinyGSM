@@ -26,8 +26,10 @@ class SMS{
 		SMS(String rawText);
 		String getText();
 		String getSender();
+		String getTime();
+		String getDate();
 	private:
-		String _sender, _text;
+		String _sender, _text, _time, _date;
 };
 
 #endif
