@@ -6,7 +6,7 @@
 class TinyGSM{
 	public:
 		TinyGSM();
-		void begin(SoftwareSerial *serial);
+		boolean begin(SoftwareSerial *serial);
 		void sendSMS(String recipient, String text);
 		void print(String input);
 		void print(char inChar);
@@ -16,6 +16,7 @@ class TinyGSM{
 		String getSMS();
 	private:
 		boolean isConnected();
+		boolean timeOut(unsigned long currentTime, unsigned long timeout);
 		void disableEcho();
 		void enableSMSNotification();
 		SoftwareSerial *_serial;

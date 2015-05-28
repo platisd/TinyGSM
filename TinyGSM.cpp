@@ -2,18 +2,26 @@
 
 
 const unsigned short TINYGSM_BAUD_RATE = 19200;
+const unsigned short CONNECTION_TIMEOUT = 20000;
 
 TinyGSM::TinyGSM(){}
 
-void TinyGSM::begin(SoftwareSerial *serial){
+boolean TinyGSM::begin(SoftwareSerial *serial){
 	_serial = serial;
 	_serial->begin(TINYGSM_BAUD_RATE);
-	while (!isConnected()); //TO-DO: add timeout
+	unsigned long startTime = millis();	
+	while (!isConnected() && !timeOut(startTime, CONNECTION_TIMEOUT)); //wait until it's connected or the connection attempts get timed out
+	if (timeOut(startTime, CONNECTION_TIMEOUT)) return false; //if the connection has been timed out
 	disableEcho();
 	delay(100);
 	enableSMSNotification();
 	delay(100);
 	flush();
+	return true; //has been succesfully connected
+}
+
+boolean TinyGSM::timeOut(unsigned long startTime, unsigned long timeout){
+	return (millis() > startTime + timeout) ? true:false; //if the current time is larger than the timeout moment return true, else false
 }
 
 boolean TinyGSM::isConnected(){
